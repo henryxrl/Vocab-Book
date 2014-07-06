@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="henryxrl.screens.VocabListList_Screen" >
+
+    <item
+        android:id="@+id/action_stat_list_list"
+        android:icon="@drawable/stat"
+        android:title="@string/action_stat"
+        android:showAsAction="always" />
+
+</menu>

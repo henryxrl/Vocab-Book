@@ -1,0 +1,45 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="henryxrl.screens.VocabWordList_Screen" >
+
+    <item
+        android:id="@+id/menu_sort"
+        android:icon="@drawable/sort"
+        android:title="@string/action_sort"
+        android:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/menuSort0"
+                android:icon="@drawable/sort_rating"
+                android:title="@string/sort_method_0"
+                />
+            <item
+                android:id="@+id/menuSort1"
+                android:icon="@drawable/sort_rating_desc"
+                android:title="@string/sort_method_1"
+                />
+            <item
+                android:id="@+id/menuSort2"
+                android:icon="@drawable/sort"
+                android:title="@string/sort_method_2"
+                />
+            <item
+                android:id="@+id/menuSort3"
+                android:icon="@drawable/sort_desc"
+                android:title="@string/sort_method_3"
+                />
+            <item
+                android:id="@+id/menuSort4"
+                android:icon="@drawable/sort_os"
+                android:title="@string/sort_method_4"
+                />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/action_stat_word_list"
+        android:icon="@drawable/stat"
+        android:title="@string/action_stat"
+        android:showAsAction="always" />
+
+</menu>

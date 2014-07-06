@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="henryxrl.screens" >
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".VocabBookList_Screen"
+            android:icon="@drawable/home"
+            android:label="@string/app_name" >
+
+        </activity>
+        <activity
+            android:name=".VocabListList_Screen"
+            android:icon="@drawable/nav_back" >
+        </activity>
+        <activity
+            android:name=".VocabWordList_Screen"
+            android:icon="@drawable/nav_back" >
+        </activity>
+        <activity
+            android:name=".Vocab_Screen"
+            android:icon="@drawable/nav_back"
+            android:theme="@style/AnotherTheme" >
+        </activity>
+        <activity
+            android:name=".MainTabActivity"
+            android:icon="@drawable/home"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Chaci_Screen" >
+
+        </activity>
+        <activity
+            android:name=".Setting_Screen"
+            android:label="@string/title_activity_setting__screen" >
+
+        </activity>
+
+    </application>
+
+</manifest>
+
+
