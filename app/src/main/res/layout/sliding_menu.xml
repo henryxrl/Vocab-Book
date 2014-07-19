@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/sliding_menu_title"
+        android:textColor="#FFFFFF"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/sliding_menu_title2"
+        android:textColor="#FFFFFF"
+        android:layout_below="@+id/sliding_menu_title"
+        android:layout_centerHorizontal="true"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_marginTop="-100dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:id="@+id/chart_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sliding_menu_title2"
+        android:layout_centerHorizontal="true">
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/top_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/middle_line"
+        android:layout_marginBottom="10dip">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Medium Text"
+        android:id="@+id/label_grey"
+        android:layout_marginRight="10dip"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Medium Text"
+        android:id="@+id/label_red"
+        android:layout_marginLeft="10dip"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/middle_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/bottom_line"
+        android:layout_marginBottom="10dip">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Medium Text"
+        android:id="@+id/label_orange"
+        android:layout_marginRight="10dip"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Medium Text"
+        android:id="@+id/label_yellow"
+        android:layout_marginLeft="10dip"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottom_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dip">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Medium Text"
+        android:id="@+id/label_green"
+        android:layout_marginRight="10dip"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Medium Text"
+        android:id="@+id/label_blue"
+        android:layout_marginLeft="10dip"/>
+
+    </LinearLayout>
+
+
+
+
+
+</RelativeLayout>

@@ -17,8 +17,10 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import henryxrl.screens.R;
+import henryxrl.screens.VocabWordList_Screen;
 
 /**
  * Created by Henry on 07/05/2014.
@@ -309,6 +311,7 @@ public class PullToRefreshListView extends ListView {
 	 */
 	@SuppressWarnings("deprecation")
 	public void onRefreshComplete() {
+		Toast.makeText(getContext(), "刷新成功！", Toast.LENGTH_SHORT).show();
 		mState = State.ORIGNAL;
 		changeState();
 	}

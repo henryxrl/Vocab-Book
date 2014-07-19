@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+                tools:context=".Chaci_Result_Screen">
+
+    <henryxrl.datatype.CustomScrollView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/chaci_scrollView" >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_vertical|left">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/chaci_word"
+                android:text="WORD"
+                android:textSize="35sp"
+                android:layout_gravity="center_horizontal"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_vertical|left"
+                android:layout_marginTop="20dp">
+
+                <ImageView
+                    android:id="@+id/chaci_image_phonetic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/pho_small"
+                    android:layout_gravity="top"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginLeft="25dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="25dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/chaci_phonetic"
+                    android:text="[PHONETIC]"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_vertical|left"
+                android:layout_marginTop="20dp">
+
+                <ImageView
+                    android:id="@+id/chaci_image_transcn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/cn_small"
+                    android:layout_gravity="top"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginLeft="25dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="25dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/chaci_transCN"
+                    android:text="TRANSCN"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_vertical|left"
+                android:layout_marginTop="20dp">
+
+                <ImageView
+                    android:id="@+id/chaci_image_transen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/en_small"
+                    android:layout_gravity="top"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginLeft="25dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="25dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/chaci_transEN"
+                    android:text="TRANSEN"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_vertical|left"
+                android:layout_marginTop="20dp">
+
+                <ImageView
+                    android:id="@+id/chaci_image_sent1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/li_small"
+                    android:layout_gravity="top"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginLeft="25dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="25dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/chaci_sent1"
+                    android:text="SENT1"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_vertical|left"
+                android:layout_marginTop="20dp">
+
+                <ImageView
+                    android:id="@+id/chaci_image_sent2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/li_small"
+                    android:layout_gravity="top"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginLeft="25dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="25dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/chaci_sent2"
+                    android:text="SENT2"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_vertical|left"
+                android:layout_marginTop="20dp">
+
+                <ImageView
+                    android:id="@+id/chaci_image_synonym"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/syn_small"
+                    android:layout_gravity="top"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginLeft="25dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="25dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/chaci_synonym"
+                    android:text="SYNONYM"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_vertical|left"
+                android:layout_marginTop="20dp">
+
+                <ImageView
+                    android:id="@+id/chaci_image_antonym"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ant_small"
+                    android:layout_gravity="top"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginLeft="25dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="25dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/chaci_antonym"
+                    android:text="ANTONYM"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </henryxrl.datatype.CustomScrollView>
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/moreToScrollIndicatorDown"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="6dp"
+        android:layout_marginBottom="20dp"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/moreToScrollIndicatorUp"
+        android:layout_above="@+id/moreToScrollIndicatorDown"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="6dp"
+        android:layout_marginBottom="6dp"/>
+
+</RelativeLayout>

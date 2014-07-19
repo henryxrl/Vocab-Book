@@ -42,8 +42,11 @@ import henryxrl.datatype.VocabWord;
 
 public class VocabBookList_Screen extends Activity {
 
-	private String FILE_NAME = "gre_full";
+	private String FILE_NAME = "gre_3000";
 	private int FILE_ID;
+
+	private String DICT_NAME = "dictionary";
+	private int DICT_ID;
 
 	private ListView vocabBookPage;
 	private Button btnLoad;
@@ -66,6 +69,7 @@ public class VocabBookList_Screen extends Activity {
 		Context c = VocabBookList_Screen.this;
 		Resources res = c.getResources();
 		FILE_ID = res.getIdentifier(FILE_NAME, "raw", c.getPackageName());
+		DICT_ID = res.getIdentifier(DICT_NAME, "raw", c.getPackageName());
 
 		btnLoad = (Button) findViewById(R.id.btnLoad);
 		btnLoad.setOnClickListener(new CreateDatabaseOnClickListener());

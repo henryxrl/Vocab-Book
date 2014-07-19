@@ -208,7 +208,7 @@ public class Vocab_Screen extends Activity implements View.OnClickListener {
 
 
 		// create new ProgressBar and style it
-		float totalWordCount = db.getVocabWordCount(bookNumber, listNumber);
+		float totalWordCount = db.getListWordCount(bookNumber, listNumber);
 		int progress = (int)((idToListOrder.get(wordNumber) + 1) / totalWordCount * 100.0);
 		progressBar.setProgress(progress);
 
@@ -304,7 +304,7 @@ public class Vocab_Screen extends Activity implements View.OnClickListener {
 				// right to left swipe
 				if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
 					//Toast.makeText(Vocab_Screen.this, "Show next word!", Toast.LENGTH_SHORT).show();
-					if (idToListOrder.get(wordNumber) == db.getVocabWordCount(bookNumber, listNumber)-1) {
+					if (idToListOrder.get(wordNumber) == db.getListWordCount(bookNumber, listNumber)-1) {
 						Toast.makeText(Vocab_Screen.this, "已经是最后一个词啦！", Toast.LENGTH_SHORT).show();
 					}
 					else {

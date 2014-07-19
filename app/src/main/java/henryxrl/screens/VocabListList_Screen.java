@@ -4,6 +4,8 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +20,7 @@ import java.util.HashMap;
 import henryxrl.database.Vocab_db_handler;
 import henryxrl.datatype.MyBinder;
 
-public class VocabListList_Screen extends Activity {
+public class VocabListList_Screen extends BaseSlidingMenuActivity {
 
 	private ListView vocabListPage;
 
@@ -26,11 +28,17 @@ public class VocabListList_Screen extends Activity {
 
 	private ArrayList<HashMap<String, String>> data = new ArrayList<HashMap<String, String>>();
 
+	private String title;
+
 	private long bookNumber;
 
 	// for remembering the position of the listView
 	private int idx;
 	private int top;
+
+	private FragmentTransaction transaction;
+	private Fragment rightFrag;
+	private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +62,8 @@ public class VocabListList_Screen extends Activity {
 	    Bundle b = getIntent().getExtras();
 	    bookNumber = b.getLong("VocabBookList");
 
-	    setTitle((db.getVocabBookInfo(bookNumber)).get(bookNumber)[0]);
+	    title = (db.getVocabBookInfo(bookNumber)).get(bookNumber)[0];
+	    setTitle(title);
 
 	    loadDB();
     }
@@ -85,7 +94,7 @@ public class VocabListList_Screen extends Activity {
 		int listCount = db.getVocabListCount(bookNumber);
 		for (int i = 0; i < listCount; i++) {
 			int fourStarsAndAboveCount = db.getList4StarAndAboveCount(bookNumber, i);
-			int totalCount = db.getVocabWordCount(bookNumber, i);
+			int totalCount = db.getListWordCount(bookNumber, i);
 			item = new HashMap<String, String>();
 			item.put("text1", lists.get(Long.valueOf(i))[0]);
 			item.put("text2", "认识 " + fourStarsAndAboveCount + " / " + totalCount + " 词");
@@ -119,6 +128,9 @@ public class VocabListList_Screen extends Activity {
 				startActivity(i);
 			}
 		});
+
+
+		loadStat();
 	}
 
     @Override
@@ -141,9 +153,36 @@ public class VocabListList_Screen extends Activity {
 			    //Toast.makeText(Vocab_Screen.this, "Clicked!", Toast.LENGTH_SHORT).show();
 			    finish();
 			    return true;
+		    case R.id.action_stat_list_list:
+			    //Toast.makeText(this, "Clicked!", Toast.LENGTH_SHORT).show();
+			    slidingMenu.toggle();
+			    return true;
 		    default:
 			    return super.onOptionsItemSelected(item);
 	    }
     }
+
+
+	private void loadStat() {
+		// Enable stat sliding menu
+		transaction = this.getSupportFragmentManager().beginTransaction();
+		rightFrag = new SlidingMenuFragment();
+		bundle = new Bundle();
+		bundle.putString("title", title);
+		bundle.putLong("bookNumber", bookNumber);
+		bundle.putLong("listNumber", -1);
+		bundle.putFloat("rating", db.getBookRating(bookNumber));
+		bundle.putDouble("totalCount", db.getBookTotalWordCount(bookNumber));
+	    bundle.putDouble("0star", db.getBookWordRating(bookNumber, 0));
+	    bundle.putDouble("1star", db.getBookWordRating(bookNumber, 1));
+	    bundle.putDouble("2star", db.getBookWordRating(bookNumber, 2));
+	    bundle.putDouble("3star", db.getBookWordRating(bookNumber, 3));
+	    bundle.putDouble("4star", db.getBookWordRating(bookNumber, 4));
+	    bundle.putDouble("5star", db.getBookWordRating(bookNumber, 5));
+		rightFrag.setArguments(bundle);
+		slidingMenu.setSecondaryMenu(R.layout.right_frame);
+		transaction.replace(R.id.right_frame, rightFrag);
+		transaction.commit();
+	}
 }
 

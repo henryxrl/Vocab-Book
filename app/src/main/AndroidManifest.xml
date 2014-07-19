@@ -29,7 +29,8 @@
         <activity
             android:name=".MainTabActivity"
             android:icon="@drawable/home"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:theme="@style/AnotherTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,7 +38,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Chaci_Screen" >
+            android:name=".Chaci_Screen"
+            android:theme="@style/AnotherTheme" >
+
+        </activity>
+        <activity
+            android:name=".Chaci_Screen_2"
+            android:theme="@style/AnotherTheme" >
+
+        </activity>
+        <activity
+            android:name=".Chaci_Result_Screen"
+            android:theme="@style/AnotherTheme" >
 
         </activity>
         <activity

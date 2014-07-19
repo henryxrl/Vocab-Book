@@ -219,6 +219,17 @@ public class Vocab_db_handler extends SQLiteOpenHelper {
 		return count;
 	}
 
+	public int getBookWordRating(long book_id, int rating) {
+		String countQuery = "SELECT  * FROM " + TABLE_VOCAB_WORDS + " WHERE " + KEY_BOOK_ID + " = " + book_id + " and " + KEY_WORD_RATING + " = " + rating;
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(countQuery, null);
+
+		int count = cursor.getCount();
+		cursor.close();
+
+		return count;
+	}
+
 	/**
 	 * Deleting a VocabBook
 	 */
@@ -390,9 +401,22 @@ public class Vocab_db_handler extends SQLiteOpenHelper {
 	/**
 	 * getting VocabWord count in a list
 	 */
-	public int getVocabWordCount(long book_id, long list_id) {
+	public int getListWordCount(long book_id, long list_id) {
 		String countQuery = "SELECT  * FROM " + TABLE_VOCAB_WORDS + " WHERE "
 				+ KEY_BOOK_ID + " = " + book_id + " and " + KEY_LIST_ID + " = " + list_id;
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(countQuery, null);
+
+		int count = cursor.getCount();
+		cursor.close();
+
+		return count;
+	}
+
+	public int getListWordRating(long book_id, long list_id, int rating) {
+		String countQuery = "SELECT  * FROM " + TABLE_VOCAB_WORDS + " WHERE "
+				+ KEY_BOOK_ID + " = " + book_id + " and " + KEY_LIST_ID + " = "
+				+ list_id + " and " + KEY_WORD_RATING + " = " + rating;
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(countQuery, null);
 
@@ -464,7 +488,7 @@ public class Vocab_db_handler extends SQLiteOpenHelper {
 	}
 
 	public void updateListRating(long book_id, long list_id) {
-		int wordCount = getVocabWordCount(book_id, list_id);
+		int wordCount = getListWordCount(book_id, list_id);
 
 		HashMap<Long, String[]> wordInfo = getAllVocabWordInfo(book_id, list_id);
 		float totalRating = 0f;
@@ -575,6 +599,47 @@ public class Vocab_db_handler extends SQLiteOpenHelper {
 		return vocabListInfoList;
 	}
 
+	public float getBookRating(long book_id) {
+		float rating = 0f;
+		String selectQuery = "SELECT  * FROM " + TABLE_VOCAB_BOOKS + " WHERE "
+				+ KEY_BOOK_ID + " = " + book_id;
+
+		Log.e(LOG, selectQuery);
+
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor c = db.rawQuery(selectQuery, null);
+
+		if (c.moveToFirst()) {
+			rating = c.getFloat(c.getColumnIndex(KEY_BOOK_RATING));
+		}
+
+		//System.out.println("book " + book_id + " -> list " + list_id + " -> word " + word_id + " -> star " + c.getString(c.getColumnIndex(KEY_WORD_RATING)));
+
+		c.close();
+
+		return rating;
+	}
+
+	public float getListRating(long book_id, long list_id) {
+		float rating = 0f;
+		String selectQuery = "SELECT  * FROM " + TABLE_VOCAB_LISTS + " WHERE "
+				+ KEY_BOOK_ID + " = " + book_id + " and " + KEY_LIST_ID + " = " + list_id;
+
+		Log.e(LOG, selectQuery);
+
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor c = db.rawQuery(selectQuery, null);
+
+		if (c.moveToFirst()) {
+			rating = c.getFloat(c.getColumnIndex(KEY_LIST_RATING));
+		}
+
+		//System.out.println("book " + book_id + " -> list " + list_id + " -> word " + word_id + " -> star " + c.getString(c.getColumnIndex(KEY_WORD_RATING)));
+
+		c.close();
+
+		return rating;
+	}
 
 	/**
 	 * Closing database

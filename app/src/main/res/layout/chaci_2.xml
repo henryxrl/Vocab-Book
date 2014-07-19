@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+                tools:context=".Chaci_Screen_2">
+
+    <RelativeLayout
+        android:id="@+id/actvWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/actvButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/nav_back"
+            android:background="@android:color/transparent"
+            android:layout_alignBottom="@+id/actvWord"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="5dp"/>
+
+        <AutoCompleteTextView
+            android:id="@+id/actvWord"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="15dp"
+            android:layout_toRightOf="@+id/actvButton"
+            android:singleLine="true"
+            android:completionThreshold="1"
+            android:drawableLeft="@drawable/chaci_icon"
+            android:drawableRight="@drawable/clear"
+            android:drawablePadding="10dip"
+            android:popupBackground="@android:color/transparent"
+            android:dropDownWidth="fill_parent"
+            android:dropDownHeight="wrap_content"
+            android:dropDownVerticalOffset="5dp"
+            android:dropDownHorizontalOffset="-100dp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/textView"
+        android:layout_below="@+id/actvWrapper"
+        android:layout_centerInParent="true"
+        android:gravity="center|center_horizontal|center_vertical"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

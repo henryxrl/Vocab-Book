@@ -23,4 +23,6 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:support-v4:19.+'
+    compile files('D:/Users/Henry/AndroidStudioProjects/ZZZZ/libs/achartengine-1.1.0.jar')
+    compile files('libs/achartengine-1.1.0.jar')
 }
