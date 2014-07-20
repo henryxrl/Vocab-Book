@@ -1,7 +1,6 @@
 package henryxrl.screens;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
@@ -19,26 +18,21 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RatingBar;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import henryxrl.database.Vocab_db_handler;
+import henryxrl.database.VocabDatabase;
 import henryxrl.datatype.PullToRefreshListView;
-import henryxrl.slidingmenu.SlidingMenu;
-import henryxrl.slidingmenu.app.SlidingFragmentActivity;
 
 public class VocabWordList_Screen extends BaseSlidingMenuActivity {
 
 	private PullToRefreshListView vocabWordPage;
 
-	private Vocab_db_handler db;
+	private VocabDatabase db;
 
 	private ArrayList<LinkedHashMap<String, String>> data = new ArrayList<LinkedHashMap<String, String>>();
 
@@ -80,7 +74,7 @@ public class VocabWordList_Screen extends BaseSlidingMenuActivity {
 		//bar.setDisplayHomeAsUpEnabled(true);
 		bar.setHomeButtonEnabled(true);
 
-		db = new Vocab_db_handler(getApplicationContext());
+		db = new VocabDatabase(getApplicationContext());
 
 		vocabWordPage = (PullToRefreshListView) findViewById(R.id.VocabWord_list);
 
@@ -365,7 +359,7 @@ public class VocabWordList_Screen extends BaseSlidingMenuActivity {
 		/** Other needed info **/
 		private final long bookNumber;
 		private final long listNumber;
-		private final Vocab_db_handler db;
+		private final VocabDatabase db;
 		private final Long[] listOrderToId;
 
 		/**
@@ -375,7 +369,7 @@ public class VocabWordList_Screen extends BaseSlidingMenuActivity {
 		 * @param resource
 		 * @param objects
 		 */
-		public CustomAdapter(final Context context, final int resource, final ArrayList<LinkedHashMap<String, String>> objects, long b, long l, Long[] mapping, Vocab_db_handler d) {
+		public CustomAdapter(final Context context, final int resource, final ArrayList<LinkedHashMap<String, String>> objects, long b, long l, Long[] mapping, VocabDatabase d) {
 			super(context, resource, objects);
 			this.inflater = LayoutInflater.from(context);
 			this.bookNumber = b;

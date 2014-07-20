@@ -6,9 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,8 +19,7 @@ import org.achartengine.renderer.SimpleSeriesRenderer;
 
 import java.text.DecimalFormat;
 
-import henryxrl.database.Vocab_db_handler;
-import henryxrl.slidingmenu.SlidingMenu;
+import henryxrl.database.VocabDatabase;
 
 public class SlidingMenuFragment extends Fragment
 {
@@ -30,7 +27,7 @@ public class SlidingMenuFragment extends Fragment
 	private GraphicalView mChart;
 	private String[] code;
 
-	private Vocab_db_handler db;
+	private VocabDatabase db;
 
 	private String title;
 	private long bookNumber;
@@ -46,7 +43,7 @@ public class SlidingMenuFragment extends Fragment
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-	    db = new Vocab_db_handler(getActivity().getApplicationContext());
+	    db = new VocabDatabase(getActivity().getApplicationContext());
 
 	    view = inflater.inflate(R.layout.sliding_menu, container, false);
 	    view.setBackgroundColor(0xCC000000);

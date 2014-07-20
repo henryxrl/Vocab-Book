@@ -1,45 +1,25 @@
 package henryxrl.screens;
 
-import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.GestureDetector;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.xml.sax.SAXException;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
-import henryxrl.database.Vocab_db_handler;
+import henryxrl.database.VocabDatabase;
 import henryxrl.datatype.CustomScrollView;
-import henryxrl.datatype.VocabBook;
+import henryxrl.datatype.VocabWord;
 
 public class Vocab_Screen extends Activity implements View.OnClickListener {
 
@@ -74,7 +54,7 @@ public class Vocab_Screen extends Activity implements View.OnClickListener {
 
 	private final String[] ratingText = new String[] { "尚未学习", "只如初见", "似曾相识", "略知一二", "耳熟能详", "了然于心" };
 
-	private Vocab_db_handler db;
+	private VocabDatabase db;
 
 	public long bookNumber;
 	public long listNumber;
@@ -82,6 +62,9 @@ public class Vocab_Screen extends Activity implements View.OnClickListener {
 
 	public long[] listOrderToId;
 	public HashMap<Long, Long> idToListOrder;
+
+	private ImageButton imgBtn;
+	private VocabWord vocabWord;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +81,21 @@ public class Vocab_Screen extends Activity implements View.OnClickListener {
 	    //bar.setDisplayHomeAsUpEnabled(true);
 	    //bar.setHomeButtonEnabled(true);
 
-	    db = new Vocab_db_handler(getApplicationContext());
+	    db = new VocabDatabase(getApplicationContext());
+
+	    imgBtn = (ImageButton) findViewById(R.id.addButton);
+	    imgBtn.setOnClickListener(new View.OnClickListener() {
+		    @Override
+		    public void onClick(View view) {
+			    if (vocabWord != null) {
+				    if (db.addWordToOwnBook(vocabWord, "生词本")) {
+					    imgBtn.setImageResource(R.drawable.added);
+					    Toast.makeText(Vocab_Screen.this, "已将 " + vocabWord.word + " 加入生词本！", Toast.LENGTH_SHORT).show();
+				    } else
+					    Toast.makeText(Vocab_Screen.this, vocabWord.word + " 加入失败！", Toast.LENGTH_SHORT).show();
+			    }
+		    }
+	    });
 
 		imgPhonetic = (ImageView) findViewById(R.id.image_phonetic);
 		imgTransCN = (ImageView) findViewById(R.id.image_transcn);
@@ -203,6 +200,8 @@ public class Vocab_Screen extends Activity implements View.OnClickListener {
 		setOtherTextView(wordAttr);
 		r.setRating(Float.parseFloat(wordAttr[8]));
 		RatingWord.setText(ratingText[(int)Float.parseFloat(wordAttr[8])]);
+
+		vocabWord = new VocabWord(-1L, wordAttr[0], wordAttr[1], wordAttr[2], wordAttr[3], wordAttr[4], wordAttr[5], wordAttr[6], wordAttr[7]);
 
 		//System.out.println("book " + bookNumber + " -> list " + listNumber + " -> word " + wordNumber + " -> star " + wordAttr[8]);
 

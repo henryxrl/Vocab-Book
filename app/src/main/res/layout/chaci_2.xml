@@ -16,24 +16,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
-        <ImageButton
-            android:id="@+id/actvButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/nav_back"
-            android:background="@android:color/transparent"
-            android:layout_alignBottom="@+id/actvWord"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="5dp"/>
-
         <AutoCompleteTextView
             android:id="@+id/actvWord"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="0dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_toRightOf="@+id/actvButton"
             android:singleLine="true"
             android:completionThreshold="1"
             android:drawableLeft="@drawable/chaci_icon"

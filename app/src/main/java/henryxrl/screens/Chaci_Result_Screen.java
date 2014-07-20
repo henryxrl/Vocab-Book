@@ -6,12 +6,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import henryxrl.database.VocabDatabase;
 import henryxrl.datatype.CustomScrollView;
+import henryxrl.datatype.VocabWord;
 
 public class Chaci_Result_Screen extends Activity implements View.OnClickListener {
 
@@ -33,6 +36,10 @@ public class Chaci_Result_Screen extends Activity implements View.OnClickListene
 	private TextView Antonym;
 	private CustomScrollView s;
 
+	private ImageButton imgBtn;
+	private VocabWord vocabWord;
+	private VocabDatabase db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +50,21 @@ public class Chaci_Result_Screen extends Activity implements View.OnClickListene
 	    overridePendingTransition(R.anim.pull_in_from_right, R.anim.hold);
 
         setContentView(R.layout.chaci_result);
+
+	    db = new VocabDatabase(getApplicationContext());
+	    imgBtn = (ImageButton) findViewById(R.id.chaci_addButton);
+	    imgBtn.setOnClickListener(new View.OnClickListener() {
+		    @Override
+		    public void onClick(View view) {
+				if (vocabWord != null) {
+					if (db.addWordToOwnBook(vocabWord, "生词本")) {
+						imgBtn.setImageResource(R.drawable.added);
+						Toast.makeText(Chaci_Result_Screen.this, "已将 " + vocabWord.word + " 加入生词本！", Toast.LENGTH_SHORT).show();
+					} else
+						Toast.makeText(Chaci_Result_Screen.this, vocabWord.word + " 加入失败！", Toast.LENGTH_SHORT).show();
+				}
+		    }
+	    });
 
 	    imgPhonetic = (ImageView) findViewById(R.id.chaci_image_phonetic);
 		imgTransCN = (ImageView) findViewById(R.id.chaci_image_transcn);
@@ -103,17 +125,18 @@ public class Chaci_Result_Screen extends Activity implements View.OnClickListene
 	private void showInfo() {
 		Bundle bundle = getIntent().getExtras();
 		Bundle b = bundle.getBundle("result");
+		vocabWord = b.getParcelable("vocabWord");
 
 		String[] wordAttr = new String[9];
-		wordAttr[0] = b.getString("word").replaceAll("\\\\n", "\\\n");
-		wordAttr[1] = b.getString("phonetic").replaceAll("\\\\n", "\\\n");
-		wordAttr[2] = b.getString("transCN").replaceAll("\\\\n", "\\\n");
-		wordAttr[3] = b.getString("transEN").replaceAll("\\\\n", "\\\n");
-		wordAttr[4] = b.getString("sent1").replaceAll("\\\\n", "\\\n");
-		wordAttr[5] = b.getString("sent2").replaceAll("\\\\n", "\\\n");
-		wordAttr[6] = b.getString("synonym").replaceAll("\\\\n", "\\\n");
-		wordAttr[7] = b.getString("antonym").replaceAll("\\\\n", "\\\n");
-		//wordAttr[8] = b.getString("word").replaceAll("\\\\n", "\\\n");
+		wordAttr[0] = vocabWord.word;
+		wordAttr[1] = vocabWord.phonetic;
+		wordAttr[2] = vocabWord.transCN;
+		wordAttr[3] = vocabWord.transEN;
+		wordAttr[4] = vocabWord.sentCN;
+		wordAttr[5] = vocabWord.sentEN;
+		wordAttr[6] = vocabWord.synonym;
+		wordAttr[7] = vocabWord.antonym;
+		//wordAttr[8] = vocabWord.word;
 
 		Word.setText(wordAttr[0]);
 		setOtherTextView(wordAttr);

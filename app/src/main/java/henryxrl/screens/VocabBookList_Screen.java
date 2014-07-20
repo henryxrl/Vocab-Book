@@ -33,7 +33,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import henryxrl.database.Vocab_db_handler;
+import henryxrl.database.DictionaryDatabase;
+import henryxrl.database.VocabDatabase;
 import henryxrl.datatype.MyBinder;
 import henryxrl.datatype.VocabBook;
 import henryxrl.datatype.VocabList;
@@ -42,20 +43,21 @@ import henryxrl.datatype.VocabWord;
 
 public class VocabBookList_Screen extends Activity {
 
-	private String FILE_NAME = "gre_3000";
+	private String FILE_NAME = "gre_txt_l1_def";
 	private int FILE_ID;
 
 	private String DICT_NAME = "dictionary";
-	private int DICT_ID;
 
 	private ListView vocabBookPage;
 	private Button btnLoad;
 	private Button btnDelete;
 	private ProgressDialog pd;
 
-	private Vocab_db_handler db;
+	private VocabDatabase db;
 
 	private PrepareXML pXML;
+	private PrepareTXT pTXT;
+	private DictionaryDatabase dictionary;
 
 	// for remembering the position of the listView
 	private int idx;
@@ -69,14 +71,35 @@ public class VocabBookList_Screen extends Activity {
 		Context c = VocabBookList_Screen.this;
 		Resources res = c.getResources();
 		FILE_ID = res.getIdentifier(FILE_NAME, "raw", c.getPackageName());
-		DICT_ID = res.getIdentifier(DICT_NAME, "raw", c.getPackageName());
 
 		btnLoad = (Button) findViewById(R.id.btnLoad);
-		btnLoad.setOnClickListener(new CreateDatabaseOnClickListener());
-		btnDelete = (Button) findViewById(R.id.btnDelete);
-		btnDelete.setOnClickListener(new DeleteDatabaseOnClickListener());
+		btnLoad.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				/*pXML = new PrepareXML();
+				pXML.execute();*/
+				pTXT = new PrepareTXT();
+				pTXT.execute();
+			}
+		});
 
-		db = new Vocab_db_handler(getApplicationContext());
+		btnDelete = (Button) findViewById(R.id.btnDelete);
+		btnDelete.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				db.deleteVocabBook(0);
+				System.out.println("Done with db.deleteVocabBook(0)");
+				db.deleteAllVocabList(0);
+				System.out.println("Done with db.deleteAllVocabList(0)");
+				db.deleteAllVocabWord(0);
+				System.out.println("Done with db.deleteAllVocabWord(0, t)\nDelete database complete!");
+
+				vocabBookPage.setAdapter(null);
+			}
+		});
+
+		db = new VocabDatabase(getApplicationContext());
+		dictionary = new DictionaryDatabase(getBaseContext());
 
 		vocabBookPage = (ListView) findViewById(R.id.VocabBook_list);
 
@@ -93,8 +116,7 @@ public class VocabBookList_Screen extends Activity {
 	}
 
 	@Override
-	public void onDestroy()
-	{
+	public void onDestroy() {
 		super.onDestroy();
 		db.closeDB();
 	}
@@ -143,85 +165,6 @@ public class VocabBookList_Screen extends Activity {
 		});
 	}
 
-	private ArrayList<HashMap<String, String>> parseTXTWithTrans()
-	{
-		ArrayList<HashMap<String, String>> ret = new ArrayList<HashMap<String, String>>();
-
-		try
-		{
-			//InputStream inputStream = getClass().getClassLoader().getResourceAsStream("src/files/GRE.txt");
-			InputStream inputStream = getResources().openRawResource(FILE_ID);
-			if (inputStream != null)
-			{
-				InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-				BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-				String s;
-
-				HashMap<String, String> item;
-				while ((s = bufferedReader.readLine()) != null)
-				{
-					String[] parts = s.split("\t");
-					String part1 = parts[0];    // vocab
-					String part2 = parts[1];    // vocab trans
-					item = new HashMap<String, String>();
-					item.put("line1", part1);
-					item.put("line2", part2);
-					ret.add(item);
-				}
-
-				inputStream.close();
-			}
-		}
-		catch (FileNotFoundException e)
-		{
-			Log.e(VocabBookList_Screen.class.getName(), "File Not Found: " + e.toString());
-		}
-		catch (IOException e)
-		{
-			Log.e(VocabBookList_Screen.class.getName(), "Cannot Read File: " + e.toString());
-		}
-
-		return ret;
-	}
-
-	private ArrayList<HashMap<String, String>> parseTXTWithoutTrans()
-	{
-		ArrayList<HashMap<String, String>> ret = new ArrayList<HashMap<String, String>>();
-
-		try
-		{
-			//InputStream inputStream = getClass().getClassLoader().getResourceAsStream("src/files/GRE.txt");
-			InputStream inputStream = getResources().openRawResource(FILE_ID);
-			if (inputStream != null)
-			{
-				InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-				BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-				String s;
-
-				HashMap<String, String> item;
-				while ((s = bufferedReader.readLine()) != null)
-				{
-					item = new HashMap<String, String>();
-					item.put("line1", s);
-					item.put("line2", "");
-					ret.add(item);
-				}
-
-				inputStream.close();
-			}
-		}
-		catch (FileNotFoundException e)
-		{
-			Log.e(VocabBookList_Screen.class.getName(), "File Not Found: " + e.toString());
-		}
-		catch (IOException e)
-		{
-			Log.e(VocabBookList_Screen.class.getName(), "Cannot Read File: " + e.toString());
-		}
-
-		return ret;
-	}
-
 	private void parseXML() throws ParserConfigurationException, SAXException {
 		try
 		{
@@ -236,6 +179,53 @@ public class VocabBookList_Screen extends Activity {
 				inputStream.close();
 
 			}
+		}
+		catch (FileNotFoundException e)
+		{
+			Log.e(VocabBookList_Screen.class.getName(), "File Not Found: " + e.toString());
+		}
+		catch (IOException e)
+		{
+			Log.e(VocabBookList_Screen.class.getName(), "Cannot Read File: " + e.toString());
+		}
+	}
+
+	private void parseTXT() {
+		try
+		{
+			final InputStream inputStream = getResources().openRawResource(FILE_ID);
+			InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+			VocabWord vocabWord = new VocabWord();
+			long book_id = db.createOwnBookIfNotExist(FILE_NAME);
+			long list_id = db.createOwnListIfNotExist(book_id);
+
+			String line;
+			long count = 0L;
+			while ((line = bufferedReader.readLine()) != null) {
+				line = line.trim();
+				if (!line.isEmpty()) {
+					String[] parsedLine = line.split("\t");     // parsedLine[0] is vocab; parsedLine[1] is definition, if exists
+
+					if (!parsedLine[0].isEmpty()) {
+						vocabWord = dictionary.lookUp(parsedLine[0], true, true, true, true, true, true, true);
+					}
+
+					if (parsedLine.length > 1) {
+						if (!parsedLine[1].isEmpty()) {
+							vocabWord.transCN = parsedLine[1];
+						}
+					}
+
+					db.createOwnWordIfNotExist(book_id, list_id, vocabWord);
+
+					count++;
+					pTXT.onProgressUpdate(count);
+				}
+			}
+
+			inputStream.close();
 		}
 		catch (FileNotFoundException e)
 		{
@@ -273,7 +263,10 @@ public class VocabBookList_Screen extends Activity {
 	    }
     }
 
-	public class PrepareXML extends AsyncTask<Void, Long, Void> {
+
+	class PrepareXML extends AsyncTask<Void, Long, Void> {
+
+		private String bookName;
 
 		@Override
 		protected void onProgressUpdate(Long... progress) {
@@ -289,14 +282,14 @@ public class VocabBookList_Screen extends Activity {
 			final InputStream inputStream = getResources().openRawResource(FILE_ID);
 			InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-			String name = "";
+			bookName = "";
 			String line;
 			int wordCount = 0;
 			try {
 				while ((line = bufferedReader.readLine()) != null)
 				{
 					if (line.contains("<book"))
-						name = line.substring((line.indexOf("\"") + 1), line.lastIndexOf("\""));
+						bookName = line.substring((line.indexOf("\"") + 1), line.lastIndexOf("\""));
 					if (line.contains("<item>"))
 						wordCount++;
 				}
@@ -311,7 +304,7 @@ public class VocabBookList_Screen extends Activity {
 			}
 
 			pd.setMax(wordCount);
-			pd.setMessage("正在导入书籍……\n\n《" + name + "》");
+			pd.setMessage("正在导入书籍……\n\n《" + bookName + "》");
 			pd.setProgressNumberFormat("已导入 %1d / %2d 词");
 			pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 			pd.setProgress(0);
@@ -335,16 +328,80 @@ public class VocabBookList_Screen extends Activity {
 			super.onPostExecute(result);
 			// Close progressbar
 			pd.dismiss();
-			Toast.makeText(VocabBookList_Screen.this, "Load successful!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(VocabBookList_Screen.this, "《" + bookName + "》导入完毕！", Toast.LENGTH_SHORT).show();
 			loadDB();
 		}
 
 	}
 
+	class PrepareTXT extends AsyncTask<Void, Long, Void> {
+
+		private String bookName;
+
+		@Override
+		protected void onProgressUpdate(Long... progress) {
+			pd.setProgress((int) (long) progress[0]);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			pd = new ProgressDialog(VocabBookList_Screen.this);
+			pd.setCancelable(false);
+
+			final InputStream inputStream = getResources().openRawResource(FILE_ID);
+			InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+			bookName = FILE_NAME;
+			String line;
+			int wordCount = 0;
+			try {
+				while ((line = bufferedReader.readLine()) != null)
+				{
+					if (!line.trim().isEmpty()) {
+						wordCount++;
+					}
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			try {
+				inputStream.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			pd.setMax(wordCount);
+			pd.setMessage("正在导入书籍……\n\n《" + bookName + "》");
+			pd.setProgressNumberFormat("已导入 %1d / %2d 词");
+			pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+			pd.setProgress(0);
+			pd.show();
+		}
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			parseTXT();
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			// Close progressbar
+			pd.dismiss();
+			Toast.makeText(VocabBookList_Screen.this, "《" + bookName + "》导入完毕！", Toast.LENGTH_SHORT).show();
+			loadDB();
+		}
+
+	}
+
+
 	/**
 	 * The Handler for SAX Events.
 	 */
-	public class SAXHandler extends DefaultHandler {
+	class SAXHandler extends DefaultHandler {
 		private boolean inWord;
 		private boolean inPhonetic;
 		private boolean inTransCN;
@@ -363,7 +420,7 @@ public class VocabBookList_Screen extends Activity {
 		private StringBuilder antonym;
 
 		private VocabBook book;
-		private long bookID = -1L;
+		private long bookID = db.getLargestBookId();
 		private VocabList list;
 		private long listID = -1L;
 		private VocabWord item;
@@ -506,55 +563,6 @@ public class VocabBookList_Screen extends Activity {
 			}
 		}
 
-	}
-
-	// createDatabaseButton点击事件监听器
-	public class CreateDatabaseOnClickListener implements View.OnClickListener {
-		public void onClick(View v) {
-			// 创建了一个DatabaseHelper对象，只执行这句话是不会创建或打开连接的
-			//Vocab_db_handler db = new Vocab_db_handler(VocabBookList_Screen.this);
-			// 只有调用了DatabaseHelper的getWritableDatabase()方法或者getReadableDatabase()方法之后，才会创建或打开一个连接
-			//SQLiteDatabase sqliteDatabase = dbHelper.getReadableDatabase();
-
-			/*try {
-				parseXML();
-			} catch (ParserConfigurationException e) {
-				e.printStackTrace();
-			} catch (SAXException e) {
-				e.printStackTrace();
-			}*/
-
-			//final InputStream inputStream = getResources().openRawResource(FILE_ID);
-			pXML = new PrepareXML();
-			pXML.execute();
-
-			//loadDB();
-		}
-
-	}
-
-	// deleteButton点击事件监听器
-	public class DeleteDatabaseOnClickListener implements View.OnClickListener {
-		public void onClick(View v) {
-			//创建DatabaseHelper对象
-			//Vocab_db_handler dbHelper = new Vocab_db_handler(VocabBookList_Screen.this);
-			//获得可写的SQLiteDatabase对象
-			//SQLiteDatabase sqliteDatabase = dbHelper.getWritableDatabase();
-			//调用SQLiteDatabase对象的delete方法进行删除操作
-			//第一个参数String：表名
-			//第二个参数String：条件语句
-			//第三个参数String[]：条件值
-			//sqliteDatabase.delete("user", "id=?", new String[]{"1"});
-			//System.out.println("----------delete----------");
-			db.deleteVocabBook(0);
-			System.out.println("Done with db.deleteVocabBook(0)");
-			db.deleteAllVocabList(0);
-			System.out.println("Done with db.deleteAllVocabList(0)");
-			db.deleteAllVocabWord(0);
-			System.out.println("Done with db.deleteAllVocabWord(0, t)\nDelete database complete!");
-
-			vocabBookPage.setAdapter(null);
-		}
 	}
 
 }

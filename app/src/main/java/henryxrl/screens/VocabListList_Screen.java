@@ -1,7 +1,6 @@
 package henryxrl.screens;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,14 +16,14 @@ import android.widget.SimpleAdapter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import henryxrl.database.Vocab_db_handler;
+import henryxrl.database.VocabDatabase;
 import henryxrl.datatype.MyBinder;
 
 public class VocabListList_Screen extends BaseSlidingMenuActivity {
 
 	private ListView vocabListPage;
 
-	private Vocab_db_handler db;
+	private VocabDatabase db;
 
 	private ArrayList<HashMap<String, String>> data = new ArrayList<HashMap<String, String>>();
 
@@ -55,7 +54,7 @@ public class VocabListList_Screen extends BaseSlidingMenuActivity {
 	    //bar.setDisplayHomeAsUpEnabled(true);
 	    bar.setHomeButtonEnabled(true);
 
-	    db = new Vocab_db_handler(getApplicationContext());
+	    db = new VocabDatabase(getApplicationContext());
 
 	    vocabListPage = (ListView) findViewById(R.id.VocabList_list);
 

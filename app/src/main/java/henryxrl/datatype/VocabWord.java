@@ -6,7 +6,7 @@ import android.os.Parcelable;
 /**
  * Created by Henry on 06/28/2014.
  */
-public class VocabWord implements Parcelable{
+public class VocabWord implements Parcelable {
 	public long id;
 	public String word;
 	public String phonetic;
