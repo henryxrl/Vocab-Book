@@ -34,7 +34,7 @@
         <item name="android:ellipsize">marquee</item>
         <item name="android:gravity">center_horizontal</item>
         <item name="android:paddingTop">5dip</item>
-        <item name="android:paddingBottom">2.0dip</item>
+        <item name="android:paddingBottom">2dip</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginBottom">2.0dip</item>
@@ -42,6 +42,18 @@
         <item name="android:singleLine">true</item>
         <item name="android:drawablePadding">2dip</item>
         <item name="android:layout_weight">1.0</item>
+    </style>
+
+    <style name="customButton" parent="@android:style/Widget.Button">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/btn</item>
+        <item name="android:paddingLeft">10dip</item>
+        <item name="android:paddingRight">10dip</item>
+        <item name="android:minHeight">36dip</item>
+        <item name="android:maxHeight">36dip</item>
     </style>
 
 </resources>

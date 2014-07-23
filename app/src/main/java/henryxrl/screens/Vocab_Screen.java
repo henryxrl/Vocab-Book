@@ -309,6 +309,7 @@ public class Vocab_Screen extends Activity implements View.OnClickListener {
 					else {
 						wordNumber = listOrderToId[(int)(idToListOrder.get(wordNumber) + 1)];
 						showInfo(bookNumber, listNumber, wordNumber);
+						imgBtn.setImageResource(R.drawable.add);
 					}
 				}  else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
 					//Toast.makeText(Vocab_Screen.this, "Show previous word!", Toast.LENGTH_SHORT).show();
@@ -318,6 +319,7 @@ public class Vocab_Screen extends Activity implements View.OnClickListener {
 					else {
 						wordNumber = listOrderToId[(int)(idToListOrder.get(wordNumber) - 1)];
 						showInfo(bookNumber, listNumber, wordNumber);
+						imgBtn.setImageResource(R.drawable.add);
 					}
 				}
 			} catch (Exception e) {

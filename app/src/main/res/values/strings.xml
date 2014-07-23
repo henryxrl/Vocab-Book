@@ -24,4 +24,5 @@
     <string name="release_to_refresh">松开后刷新</string>
     <string name="refreshing" tools:ignore="TypographyEllipsis">正在刷新......</string>
 
+    <string name="importBtnText">导入数据库</string>
 </resources>

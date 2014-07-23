@@ -43,7 +43,7 @@ import henryxrl.datatype.VocabWord;
 
 public class VocabBookList_Screen extends Activity {
 
-	private String FILE_NAME = "gre_txt_l1_def";
+	private String FILE_NAME = "gre_3000";
 	private int FILE_ID;
 
 	private String DICT_NAME = "dictionary";
@@ -63,6 +63,8 @@ public class VocabBookList_Screen extends Activity {
 	private int idx;
 	private int top;
 
+	private Button btnFile;
+
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,10 +78,10 @@ public class VocabBookList_Screen extends Activity {
 		btnLoad.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				/*pXML = new PrepareXML();
-				pXML.execute();*/
-				pTXT = new PrepareTXT();
-				pTXT.execute();
+				pXML = new PrepareXML();
+				pXML.execute();
+				/*pTXT = new PrepareTXT();
+				pTXT.execute();*/
 			}
 		});
 
@@ -95,6 +97,15 @@ public class VocabBookList_Screen extends Activity {
 				System.out.println("Done with db.deleteAllVocabWord(0, t)\nDelete database complete!");
 
 				vocabBookPage.setAdapter(null);
+			}
+		});
+
+		btnFile = (Button) findViewById(R.id.btnFile);
+		btnFile.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Intent i = new Intent(getApplicationContext(), FileActivity.class);
+				startActivity(i);
 			}
 		});
 
