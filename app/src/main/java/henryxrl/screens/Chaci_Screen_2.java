@@ -93,7 +93,6 @@ public class Chaci_Screen_2 extends Activity {
 			}
 		});
 
-
 	}
 
 	@Override

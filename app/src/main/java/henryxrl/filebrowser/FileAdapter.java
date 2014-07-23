@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -46,11 +47,12 @@ public class FileAdapter extends BaseAdapter {
 
 		if (convertView == null) { // convertView 可利用，如果传入为null，执行初始化操作
 			// 载入xml文件为View
-			convertView = _inflater.inflate(R.layout.file_item_folder, null);
+			convertView = _inflater.inflate(R.layout.file_item, null);
 			holder = new ViewHolder();
 			holder.name = (TextView) convertView.findViewById(R.id.file_name);
 			holder.icon = (ImageView) convertView.findViewById(R.id.file_icon);
 			holder.info = (TextView) convertView.findViewById(R.id.file_info);
+			holder.folder_file_action = (ImageButton) convertView.findViewById(R.id.folder_file_action_indicator);
 
 			convertView.setTag(holder);
 		} else {
@@ -79,8 +81,13 @@ public class FileAdapter extends BaseAdapter {
 				toDisplay = String.valueOf(f.FolderCount) + folderText + "; " + String.valueOf(f.FileCount) + fileText;
 			}
 			holder.info.setText(toDisplay);
+			holder.folder_file_action.setImageResource(R.drawable.arrow_next);
+			holder.folder_file_action.setClickable(false);
 		} else {
 			holder.info.setText(String.valueOf(FileUtil.formetFileSize(f.Size)));
+			holder.folder_file_action.setImageResource(R.drawable.file_check);
+			holder.folder_file_action.setClickable(false);
+			holder.folder_file_action.setSelected(false);
 		}
 
 		return convertView;
@@ -91,6 +98,7 @@ public class FileAdapter extends BaseAdapter {
 		TextView name;
 		ImageView icon;
 		TextView info;
+		ImageButton folder_file_action;
 	}
 
 }

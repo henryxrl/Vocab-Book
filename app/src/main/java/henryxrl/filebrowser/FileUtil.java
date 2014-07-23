@@ -15,6 +15,10 @@ public class FileUtil {
 		// 判断sd卡是否存在
 		if (Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
 			File sdDir = Environment.getExternalStorageDirectory();// 获取跟目录
+			File quBeiDir = new File(combinePath(sdDir.getPath(), "QuBei"));
+			if (quBeiDir.exists()) {
+				return quBeiDir.getPath();
+			}
 			return sdDir.getPath();
 		}
 		return "/sdcard";
@@ -75,32 +79,8 @@ public class FileUtil {
 	}
 
 	/** 合并路径 **/
-	public static String combinPath(String path, String fileName) {
+	public static String combinePath(String path, String fileName) {
 		return path + (path.endsWith(File.separator) ? "" : File.separator) + fileName;
-	}
-
-	/** 获取MIME类型 **/
-	public static String getMIMEType(String name) {
-		String type;
-		String end = name.substring(name.lastIndexOf(".") + 1, name.length()).toLowerCase();
-		if (end.equals("apk")) {
-			return "application/vnd.android.package-archive";
-		} else if (end.equals("mp4") || end.equals("avi") || end.equals("3gp")
-				|| end.equals("rmvb")) {
-			type = "video";
-		} else if (end.equals("m4a") || end.equals("mp3") || end.equals("mid") || end.equals("xmf")
-				|| end.equals("ogg") || end.equals("wav")) {
-			type = "audio";
-		} else if (end.equals("jpg") || end.equals("gif") || end.equals("png")
-				|| end.equals("jpeg") || end.equals("bmp")) {
-			type = "image";
-		} else if (end.equals("txt") || end.equals("log") || end.equals("xml")) {
-			type = "text";
-		} else {
-			type = "*";
-		}
-		type += "/*";
-		return type;
 	}
 
 }

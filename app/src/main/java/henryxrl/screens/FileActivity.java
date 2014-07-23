@@ -1,5 +1,6 @@
 package henryxrl.screens;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,19 +38,33 @@ public class FileActivity extends ListActivity {
 	private final String TAG = "Main";
 
 	private Button importBtn;
+	//private ImageButton folder_file_action;
+	private int selectedCount = 0;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		// Override how this activity is animated into view
+		// The new activity is pulled in from the left and the current activity is kept still
+		// This has to be called before onCreate
+		overridePendingTransition(R.anim.pull_in_from_right, R.anim.hold);
+
 		setContentView(R.layout.file_browser);
+
+		ActionBar bar = getActionBar();
+		//bar.setDisplayHomeAsUpEnabled(true);
+		bar.setHomeButtonEnabled(true);
 
 		_filePath = (TextView) findViewById(R.id.file_path);
 		importBtn = (Button) findViewById(R.id.importBtn);
+		//folder_file_action = (ImageButton) findViewById(R.id.folder_file_action_indicator);
 
 		// 获取当前目录的文件列表
 		viewFiles(_currentPath);
+
+		setTitle("选择文件");
 
 	}
 
@@ -61,7 +77,19 @@ public class FileActivity extends ListActivity {
 			viewFiles(f.Path);
 		} else {
 			//openFile(f.Path);
-			importBtn.setEnabled(true);
+			ImageButton folder_file_action = (ImageButton) v.findViewById(R.id.folder_file_action_indicator);
+			folder_file_action.setSelected(!folder_file_action.isSelected());
+			if (folder_file_action.isSelected()) {
+				selectedCount++;
+			} else {
+				selectedCount--;
+			}
+			if (selectedCount > 0) {
+				importBtn.setEnabled(true);
+			} else {
+				importBtn.setEnabled(false);
+			}
+			importBtn.setText(String.format("%s (%d)", getString(R.string.importBtnText), selectedCount));
 		}
 	}
 
@@ -70,6 +98,11 @@ public class FileActivity extends ListActivity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// 拦截back按键
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
+
+			selectedCount = 0;
+			importBtn.setEnabled(false);
+			importBtn.setText(String.format("%s (%d)", getString(R.string.importBtnText), selectedCount));
+
 			File f = new File(_currentPath);
 			String parentPath = f.getParent();
 			if (parentPath != null) {
@@ -100,11 +133,27 @@ public class FileActivity extends ListActivity {
 
 	/** 菜单事件 **/
 	public boolean onOptionsItemSelected(MenuItem item) {
-		return true;
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		switch (id) {
+			case android.R.id.home:
+				//Toast.makeText(Vocab_Screen.this, "Clicked!", Toast.LENGTH_SHORT).show();
+				finish();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
 	}
 
 	/** 获取该目录下所有文件 **/
 	private void viewFiles(String filePath) {
+
+		selectedCount = 0;
+		importBtn.setEnabled(false);
+		importBtn.setText(String.format("%s (%d)", getString(R.string.importBtnText), selectedCount));
+
 		ArrayList<FileInfo> tmp = getFiles(FileActivity.this, filePath);
 		if (tmp != null) {
 			// 清空数据

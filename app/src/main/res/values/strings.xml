@@ -25,4 +25,6 @@
     <string name="refreshing" tools:ignore="TypographyEllipsis">正在刷新......</string>
 
     <string name="importBtnText">导入数据库</string>
+    <string name="emptyFolder">目录是空的~</string>
+
 </resources>

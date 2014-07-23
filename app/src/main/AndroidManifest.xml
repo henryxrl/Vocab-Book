@@ -63,7 +63,7 @@
         </activity>
         <activity
             android:name=".FileActivity"
-            android:theme="@style/AnotherTheme" >
+            android:icon="@drawable/nav_back" >
 
         </activity>
 
